@@ -49,28 +49,30 @@ var TENTHS_LESS_THAN_HUNDRED: string[] = [
   "ninety",
 ];
 
-function toWords(number: string, asOrdinal: boolean): string {
+function toWords(number: string | number, asOrdinal?: boolean): string {
   var words: string;
-  var num = parseInt(number, 10);
+  if (typeof number == "string") {
+    var num = parseInt(number, 10);
 
-  if (!isFinite(num)) {
-    throw new TypeError(
-      "Not a finite number: " + number + " (" + typeof number + ")",
-    );
+    if (!isFinite(num)) {
+      throw new TypeError(
+        "Not a finite number: " + number + " (" + typeof number + ")",
+      );
+    }
+    if (!isSafeNumber(num)) {
+      throw new RangeError(
+        "Input is not a safe number, it’s either too large or too small.",
+      );
+    }
+    words = generateWords(num);
+    return asOrdinal ? makeOrdinal(words) : words;
   }
-  if (!isSafeNumber(num)) {
-    throw new RangeError(
-      "Input is not a safe number, it’s either too large or too small.",
-    );
-  }
-  words = generateWords(num);
-  return asOrdinal ? makeOrdinal(words) : words;
 }
 
 function generateWords(number: number): string {
   var remainder: number,
     word: string,
-    words: string[] = arguments[1];
+    words: string[] = arguments[1] as string[];
 
   // We’re done
   if (number === 0) {
@@ -117,8 +119,10 @@ function generateWords(number: number): string {
     word =
       generateWords(Math.floor(number / ONE_QUADRILLION)) + " quadrillion,";
   }
+  if (word) {
+    words.push(word);
+  }
 
-  words.push(word);
   return generateWords(remainder);
 }
 
