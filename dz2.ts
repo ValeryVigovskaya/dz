@@ -36,12 +36,25 @@ interface IResponse {
   limit: number;
 }
 
+enum Status {
+  success = 200,
+  error = 404,
+}
+
 const getUsers = async (): Promise<User[]> => {
   const url = "https://dummyjson.com/users";
   const req: IResponse = await fetch(url)
-    .then((res) => res.json())
+    .then((res) => {
+      if (res.status == Status.success) {
+        res.json();
+      }
+    })
     .catch((e) => console.log(e.message));
-  return req.users;
+  if (req.users) {
+    return req.users;
+  } else {
+    throw new Error("Некорректный запрос");
+  }
 };
 
 const response = async () => {
