@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ValeryVigovskaya/dz#readme",
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
 }
