@@ -9,7 +9,7 @@ function swapKeysAndValues(
 ): Record<number, string> {
   let newObject: Record<number, string> = {};
   for (let key in obj) {
-    newObject[obj.key] = key;
+    newObject[obj[key]] = key;
   }
   return newObject;
 }
