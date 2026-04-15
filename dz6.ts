@@ -16,13 +16,17 @@ type TObj = Omit<IA, "name">;
 const obj1: IA = { name: "d", age: 3 };
 const obj2: IB = { name: "e", country: "" };
 
-function changeParams(a: IA, b: IB) {
-  let newObj = {};
-  Object.keys(a).map((el) => {
-    if (!Object.keys(b).includes(el)) {
-      newObj[el] = a[el];
+function changeParams(a: IA, b: IB): TObj {
+  const newObj = {} as TObj;
+
+  (Object.keys(a) as (keyof IA)[]).forEach((key) => {
+    if (!(key in b)) {
+      if (key === "age") {
+        newObj.age = a.age;
+      }
     }
   });
+
   return newObj;
 }
 
