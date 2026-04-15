@@ -20,7 +20,7 @@ function changeParams(a: IA, b: IB) {
   let newObj = {};
   Object.keys(a).map((el) => {
     if (!Object.keys(b).includes(el)) {
-      newObj[el] = 10;
+      newObj[el] = a[el];
     }
   });
   return newObj;
